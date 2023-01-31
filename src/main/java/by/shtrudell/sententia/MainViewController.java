@@ -1,5 +1,7 @@
 package by.shtrudell.sententia;
 
+import by.shtrudell.sententia.image.ImageEditor;
+import by.shtrudell.sententia.image.Resolution;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +49,13 @@ public class MainViewController {
             height = newValue.getHeight();
             newSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", (double)newValue.getWidth(), image.getHeight() * (double) newValue.getWidth() / image.getWidth()));
         });
+
+        preserveRatioCheckBoc.selectedProperty().addListener((v, oldValue, newValue) -> {
+
+        });
+
+        preserveRatioCheckBoc.setSelected(true);
+
         currentSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", image.getWidth(), image.getHeight()));
         imageView.setImage(image);
         newSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", (double)width, image.getHeight() * (double)width / image.getWidth()));
@@ -65,7 +74,7 @@ public class MainViewController {
         }
 
         try {
-            imageEditor.resize(width, height, dontMakeCopyCheckBox.isSelected());
+            imageEditor.resize(width, height, dontMakeCopyCheckBox.isSelected(), preserveRatioCheckBoc.isSelected());
         } catch (IOException e) {
             Dialog.show("Warning Dialog", Localization.getTranslation("main-view", "error_cant_write_file"), Alert.AlertType.ERROR);
             return;

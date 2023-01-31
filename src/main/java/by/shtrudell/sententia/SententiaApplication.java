@@ -1,5 +1,7 @@
 package by.shtrudell.sententia;
 
+import by.shtrudell.sententia.image.ConcreteImageEditor;
+import by.shtrudell.sententia.image.ImageEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +12,6 @@ import javafx.stage.Stage;
 import java.io.*;
 
 public class SententiaApplication extends Application {
-
     private static ImageEditor imageEditor;
     private static Image image;
 

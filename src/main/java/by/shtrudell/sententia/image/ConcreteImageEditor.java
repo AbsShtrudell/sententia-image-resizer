@@ -1,4 +1,4 @@
-package by.shtrudell.sententia;
+package by.shtrudell.sententia.image;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -19,19 +19,16 @@ public class ConcreteImageEditor implements ImageEditor{
         return new ByteArrayInputStream(fileData);
     }
 
-    public void resize(int width, int height, boolean overwrite) throws IOException {
+    public void resize(int width, int height, boolean overwrite, boolean preserveRatio) throws IOException {
+            Thumbnails.of(getFileStream()).size(width, height).keepAspectRatio(preserveRatio).toFile(filePath(overwrite));
+    }
 
-        String destinationFile;
-
+    protected String filePath(boolean overwrite) {
         if(overwrite)
-            destinationFile = filePath;
+            return filePath;
         else
-        {
-            destinationFile = filePath.substring(0, filePath.lastIndexOf('.')) +
+            return filePath.substring(0, filePath.lastIndexOf('.')) +
                     "(resized)" +
                     filePath.substring(filePath.lastIndexOf('.'));
-        }
-
-        Thumbnails.of(getFileStream()).size(width, height).toFile(destinationFile);
     }
 }

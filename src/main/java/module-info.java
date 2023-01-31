@@ -6,4 +6,6 @@ module by.shtrudell.sententia {
 
     opens by.shtrudell.sententia to javafx.fxml;
     exports by.shtrudell.sententia;
+    exports by.shtrudell.sententia.image;
+    opens by.shtrudell.sententia.image to javafx.fxml;
 }
