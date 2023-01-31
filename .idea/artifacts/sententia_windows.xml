@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jpackage" build-on-make="true" name="sententia_windows">
+  <artifact type="jpackage" name="sententia_windows">
     <output-path>$PROJECT_DIR$/out/artifacts/windows</output-path>
     <properties id="jpackage-properties">
       <options>

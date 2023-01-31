@@ -1,0 +1,7 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\Resize image]
+@="&Resize image"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\Resize image\command]
+@="\"E:\\Projects\\Idea Projects\\sententia\\out\\artifacts\\windows\\resize.bat\" \"%1\""

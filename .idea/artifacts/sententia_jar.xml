@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="sententia:jar">
+  <artifact type="jar" name="sententia:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/sententia_jar</output-path>
     <root id="archive" name="sententia.jar">
       <element id="module-output" name="sententia" />

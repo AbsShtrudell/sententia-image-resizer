@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jpackage" build-on-make="true" name="sententia_linux">
+  <artifact type="jpackage" name="sententia_linux">
     <output-path>$PROJECT_DIR$/out/artifacts/linux</output-path>
     <properties id="jpackage-properties">
       <options>
