@@ -2,6 +2,7 @@ package by.shtrudell.sententia;
 
 import by.shtrudell.sententia.image.ImageEditor;
 import by.shtrudell.sententia.image.Resolution;
+import by.shtrudell.sententia.image.ResolutionCalculator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class MainViewController {
@@ -27,17 +29,15 @@ public class MainViewController {
     private ChoiceBox<Resolution> sizeChoiceBox;
     @FXML
     private ImageView imageView;
-    private final Image image;
+
     private final ImageEditor imageEditor;
     private int width;
     private int height;
     private EventHandler<ActionEvent> closeEventHandler;
-    MainViewController(Image image, ImageEditor imageEditor) {
-        this.image = image;
-        this.imageEditor = imageEditor;
+    private BufferedImage bufferedImage;
 
-        this.width = (int)image.getWidth();
-        this.height = (int)image.getHeight();
+    MainViewController(ImageEditor imageEditor) {
+        this.imageEditor = imageEditor;
     }
 
     @FXML
@@ -47,7 +47,6 @@ public class MainViewController {
         sizeChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             width = newValue.getWidth();
             height = newValue.getHeight();
-            newSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", (double)newValue.getWidth(), image.getHeight() * (double) newValue.getWidth() / image.getWidth()));
         });
 
         preserveRatioCheckBoc.selectedProperty().addListener((v, oldValue, newValue) -> {
@@ -61,9 +60,27 @@ public class MainViewController {
         newSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", (double)width, image.getHeight() * (double)width / image.getWidth()));
     }
 
-    @FXML
-    private void cancel(ActionEvent actionEvent) {
-        closeEventHandler.handle(new ActionEvent());
+    private void updateNewSizeValueLabelText() {
+        if(preserveRatioCheckBoc.isSelected())
+            setNewSizeValueLabelText(new Resolution(bufferedImage.getWidth(), bufferedImage.getHeight()), sizeChoiceBox.getValue(), (currentRes, targetRes) -> {
+                return new
+            });
+        else
+            setNewSizeValueLabelText();
+    }
+
+    private void setCurrentSizeValueLabelText(Resolution resolution) {
+        setResLabelText(resolution, currentSizeValueLabel);
+    }
+
+    private void setNewSizeValueLabelText(Resolution currentResolution, Resolution targetResolution, ResolutionCalculator calculatorMethod) {
+        setResLabelText(calculatorMethod.calculate(currentResolution, targetResolution), newSizeValueLabel);
+    }
+
+    private void setResLabelText(Resolution resolution, Label label) {
+        if(label == null) throw new NullPointerException();
+
+        label.setText(String.format("%d x %d Pixels", resolution.getWidth(), resolution.getHeight()));
     }
 
     @FXML
@@ -82,6 +99,11 @@ public class MainViewController {
 
         Dialog.show("Information Dialog", Localization.getTranslation("main-view", "information_success"), Alert.AlertType.INFORMATION);
 
+        closeEventHandler.handle(new ActionEvent());
+    }
+
+    @FXML
+    private void cancel(ActionEvent actionEvent) {
         closeEventHandler.handle(new ActionEvent());
     }
 

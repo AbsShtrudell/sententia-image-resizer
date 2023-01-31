@@ -1,19 +1,16 @@
 package by.shtrudell.sententia;
 
-import by.shtrudell.sententia.image.ConcreteImageEditor;
-import by.shtrudell.sententia.image.ImageEditor;
+import by.shtrudell.sententia.image.ThumbnailatorImageEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.*;
 
 public class SententiaApplication extends Application {
-    private static ImageEditor imageEditor;
-    private static Image image;
+    private static File imageFile;
 
     @Override
     public void start(Stage window) throws IOException {
@@ -21,7 +18,7 @@ public class SententiaApplication extends Application {
         fxmlLoader.setResources(Localization.getLocalization("main-view"));
 
         fxmlLoader.setControllerFactory(c -> {
-            MainViewController controller = new MainViewController(image, imageEditor);
+            MainViewController controller = new MainViewController(new ThumbnailatorImageEditor(imageFile));
             controller.setCloseEventHandler(e -> window.close());
 
             return controller;
@@ -30,6 +27,7 @@ public class SententiaApplication extends Application {
         Pane sceneRoot = fxmlLoader.load();
         Scene scene = new Scene(sceneRoot, sceneRoot.getPrefWidth(), sceneRoot.getPrefHeight());
 
+        window.setOnCloseRequest(e -> System.exit(0));
         window.setResizable(false);
         window.setTitle("Sententia");
         window.setScene(scene);
@@ -44,18 +42,13 @@ public class SententiaApplication extends Application {
             return;
         }
 
-        byte[] imageData;
+        imageFile = new File(args[0]);
 
-        try (InputStream inputstream = new FileInputStream(args[0])) {
-            imageData = inputstream.readAllBytes();
-        } catch (IOException e) {
+        if(!imageFile.exists() || !imageFile.isFile()) {
             System.out.println("Wrong path received");
             System.exit(1);
             return;
         }
-
-        imageEditor = new ConcreteImageEditor(imageData, args[0]);
-        image = new Image(new ByteArrayInputStream(imageData));
 
         launch();
     }
