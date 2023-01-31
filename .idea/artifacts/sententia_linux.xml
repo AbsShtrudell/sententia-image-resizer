@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="jpackage" build-on-make="true" name="sententia_linux">
+    <output-path>$PROJECT_DIR$/out/artifacts/linux</output-path>
+    <properties id="jpackage-properties">
+      <options>
+        <option name="version" value="" />
+        <option name="copyright" value="" />
+        <option name="description" value="" />
+        <option name="vendor" value="" />
+        <option name="mainClass" value="by.shtrudell.sententia.SententiaApplication" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="lib">
+        <element id="dir-copy" path="$PROJECT_DIR$/lib/javafx/linux/lib" />
+      </element>
+      <element id="directory" name="bin">
+        <element id="dir-copy" path="$PROJECT_DIR$/lib/javafx/linux/bin" />
+        <element id="artifact" artifact-name="sententia:jar" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/boot/resize.sh" />
+    </root>
+  </artifact>
+</component>
