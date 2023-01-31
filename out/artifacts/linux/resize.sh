@@ -1,1 +1,0 @@
-java --module-path lib --add-modules javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.media,javafx.web -jar bin/sententia.jar $1
