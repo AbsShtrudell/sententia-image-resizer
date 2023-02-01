@@ -1,8 +1,6 @@
 package by.shtrudell.sententia;
 
-import by.shtrudell.sententia.image.ImageEditor;
-import by.shtrudell.sententia.image.Resolution;
-import by.shtrudell.sententia.image.ResolutionCalculator;
+import by.shtrudell.sententia.image.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,90 +8,101 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import java.io.*;
 
 public class MainViewController {
     @FXML
     private CheckBox dontMakeCopyCheckBox;
     @FXML
-    private Label currentSizeValueLabel;
+    private Label currentResLabel;
     @FXML
-    private Label newSizeValueLabel;
+    private Label newResLabel;
     @FXML
     private CheckBox preserveRatioCheckBoc;
     @FXML
-    private ChoiceBox<Resolution> sizeChoiceBox;
+    private ChoiceBox<Resolution> resChoiceBox;
     @FXML
     private ImageView imageView;
 
     private final ImageEditor imageEditor;
-    private int width;
-    private int height;
-    private EventHandler<ActionEvent> closeEventHandler;
-    private BufferedImage bufferedImage;
+    private final File imageFile;
 
-    MainViewController(ImageEditor imageEditor) {
+    private BufferedImageAdaptor bufferedImage;
+    private Resolution newResolution;
+
+    private EventHandler<ActionEvent> closeEventHandler;
+
+    MainViewController(File imageFile, ImageEditor imageEditor) {
         this.imageEditor = imageEditor;
+        this.imageFile = imageFile;
     }
 
     @FXML
     private void initialize() {
-        sizeChoiceBox.getItems().setAll(Resolution.staticResolutions);
+        try {
+            bufferedImage = new BufferedImageAdaptor(ImageIO.read(imageFile));
+            newResolution = bufferedImage.getResolution();
+            imageEditor.setBufferedImage(bufferedImage);
+        } catch (IOException e) {
+            Dialog.show("Fatal Error", Localization.getTranslation("main-view", "error_cant_read_file"), Alert.AlertType.ERROR);
+            closeEventHandler.handle(new ActionEvent());
+            return;
+        }
 
-        sizeChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            width = newValue.getWidth();
-            height = newValue.getHeight();
+        resChoiceBox.getItems().setAll(Resolution.staticResolutions);
+
+        resChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            newResolution = newValue;
+            updateNewResLabel();
         });
 
         preserveRatioCheckBoc.selectedProperty().addListener((v, oldValue, newValue) -> {
-
+            updateNewResLabel();
         });
 
         preserveRatioCheckBoc.setSelected(true);
 
-        currentSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", image.getWidth(), image.getHeight()));
-        imageView.setImage(image);
-        newSizeValueLabel.setText(String.format("%.0f x %.0f Pixels", (double)width, image.getHeight() * (double)width / image.getWidth()));
+        setCurrentResLabel(bufferedImage.getResolution());
+        updateNewResLabel();
+
+        imageView.setImage(bufferedImage.getImage());
     }
 
-    private void updateNewSizeValueLabelText() {
+    private void updateNewResLabel() {
         if(preserveRatioCheckBoc.isSelected())
-            setNewSizeValueLabelText(new Resolution(bufferedImage.getWidth(), bufferedImage.getHeight()), sizeChoiceBox.getValue(), (currentRes, targetRes) -> {
-                return new
-            });
+            setNewResLabel(bufferedImage.getResolution(), newResolution, new PreserveRatioCalculator());
         else
-            setNewSizeValueLabelText();
+            setNewResLabel(bufferedImage.getResolution(), newResolution, new StraightCalculator());
     }
 
-    private void setCurrentSizeValueLabelText(Resolution resolution) {
-        setResLabelText(resolution, currentSizeValueLabel);
+    private void setCurrentResLabel(Resolution resolution) {
+        setResLabelText(resolution, currentResLabel);
     }
 
-    private void setNewSizeValueLabelText(Resolution currentResolution, Resolution targetResolution, ResolutionCalculator calculatorMethod) {
-        setResLabelText(calculatorMethod.calculate(currentResolution, targetResolution), newSizeValueLabel);
+    private void setNewResLabel(Resolution currentResolution, Resolution targetResolution, ResolutionCalculator calculatorMethod) {
+        setResLabelText(calculatorMethod.calculate(currentResolution, targetResolution), newResLabel);
     }
 
     private void setResLabelText(Resolution resolution, Label label) {
-        if(label == null) throw new NullPointerException();
+        if(label == null || resolution == null) throw new NullPointerException();
 
         label.setText(String.format("%d x %d Pixels", resolution.getWidth(), resolution.getHeight()));
     }
 
     @FXML
     private void apply(ActionEvent actionEvent) {
-        if(image.getWidth() == width && image.getHeight() == height) {
+        if(bufferedImage.getWidth() == newResolution.getWidth() && bufferedImage.getHeight() == newResolution.getHeight()) {
             Dialog.show("Warning Dialog", Localization.getTranslation("main-view", "warning_size_didnt_change"), Alert.AlertType.WARNING);
             return;
         }
 
         try {
-            imageEditor.resize(width, height, dontMakeCopyCheckBox.isSelected(), preserveRatioCheckBoc.isSelected());
+            imageEditor.resize(newResolution.getWidth(), newResolution.getHeight(), dontMakeCopyCheckBox.isSelected(), preserveRatioCheckBoc.isSelected());
         } catch (IOException e) {
-            Dialog.show("Warning Dialog", Localization.getTranslation("main-view", "error_cant_write_file"), Alert.AlertType.ERROR);
+            Dialog.show("Fatal Error", Localization.getTranslation("main-view", "error_cant_write_file"), Alert.AlertType.ERROR);
             return;
         }
 

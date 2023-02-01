@@ -28,6 +28,10 @@ public class BufferedImageAdaptor {
         return bufferedImage.getHeight();
     }
 
+    public Resolution getResolution() {
+        return new Resolution(bufferedImage.getWidth(), bufferedImage.getHeight());
+    }
+
     public static Image convertToFxImage(BufferedImage image) {
         return SwingFXUtils.toFXImage(image, null);
     }

@@ -34,7 +34,7 @@ public class Resolution {
         return resolution;
     }
 
-    Resolution(int width, int height) {
+    public Resolution(int width, int height) {
         this.width = width;
         this.height = height;
     }

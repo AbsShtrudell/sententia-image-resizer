@@ -18,7 +18,7 @@ public class SententiaApplication extends Application {
         fxmlLoader.setResources(Localization.getLocalization("main-view"));
 
         fxmlLoader.setControllerFactory(c -> {
-            MainViewController controller = new MainViewController(new ThumbnailatorImageEditor(imageFile));
+            MainViewController controller = new MainViewController(imageFile ,new ThumbnailatorImageEditor(imageFile));
             controller.setCloseEventHandler(e -> window.close());
 
             return controller;
