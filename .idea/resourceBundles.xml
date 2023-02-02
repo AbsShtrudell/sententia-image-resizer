@@ -16,5 +16,11 @@
       <file value="file://$PROJECT_DIR$/src/main/resources/main-view_RU.properties" />
       <base-name>main-view</base-name>
     </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/language-names.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/language-names_EN.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/language-names_RU.properties" />
+      <base-name>language-names</base-name>
+    </custom-resource-bundle>
   </component>
 </project>

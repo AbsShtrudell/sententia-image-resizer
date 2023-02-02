@@ -13,12 +13,15 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-public abstract class FXMLWindow<T> implements Window{
+public class FXMLWindow<T extends ClosableByEvent> implements Window{
     private final String fxmlName;
+    private final Callback<Class<?>, Object> controllerFactory;
 
-    public FXMLWindow(String fxmlName, Callback<Class<T>, Object> controllerFactory) {
+    public FXMLWindow(String fxmlName, Callback<Class<?>, Object> controllerFactory) {
         this.fxmlName = fxmlName;
+        this.controllerFactory = controllerFactory;
     }
+
     @Override
     public void show(String title) throws WindowShowError {
         FXMLLoader fxmlLoader = new FXMLLoader(SententiaApplication.class.getResource(String.format("fxml/%s.fxml", fxmlName)));
@@ -27,16 +30,12 @@ public abstract class FXMLWindow<T> implements Window{
 
         Stage window = new Stage();
 
-        fxmlLoader.setControllerFactory(c -> {
-            SettingsViewController settingsViewController = new SettingsViewController();
-            settingsViewController.setCloseEventHandler(e -> window.close());
-
-            return settingsViewController;
-        });
+        fxmlLoader.setControllerFactory(controllerFactory);
 
         Pane sceneRoot;
         try {
             sceneRoot = fxmlLoader.load();
+            fxmlLoader.<T>getController().setCloseEventHandler(e -> window.close());
         } catch (IOException e) {
             throw new WindowShowError(e.getMessage(), e.getCause());
         }
@@ -45,7 +44,7 @@ public abstract class FXMLWindow<T> implements Window{
 
         window.getIcons().add(new Image(Objects.requireNonNull(SententiaApplication.class.getResourceAsStream("app-icon.png"))));
         window.setResizable(false);
-        window.setTitle("Settings");
+        window.setTitle(title);
         window.setScene(scene);
         window.initModality(Modality.APPLICATION_MODAL);
         window.showAndWait();

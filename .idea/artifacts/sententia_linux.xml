@@ -20,6 +20,7 @@
       <element id="directory" name="bin">
         <element id="dir-copy" path="$PROJECT_DIR$/lib/javafx/linux/bin" />
         <element id="artifact" artifact-name="sententia:jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/boot/config.properties" />
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/boot/resize.sh" />
     </root>

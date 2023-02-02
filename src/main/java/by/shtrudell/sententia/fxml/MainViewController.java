@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javax.imageio.ImageIO;
 import java.io.*;
 
-public class MainViewController {
+public class MainViewController implements ClosableByEvent{
     @FXML
     private CheckBox dontMakeCopyCheckBox;
     @FXML
@@ -119,8 +119,10 @@ public class MainViewController {
     @FXML
     private void openSettings(ActionEvent actionEvent) {
         try {
-            FXMLWindow fxmlWindow = new FXMLWindow("settings-view");
-            fxmlWindow.show();
+            FXMLWindow<SettingsViewController> fxmlWindow = new FXMLWindow<>("settings-view", c -> {
+                return new SettingsViewController();
+            });
+            fxmlWindow.show("Settings");
         } catch (WindowShowError e) {
             throw new RuntimeException(e);
         }

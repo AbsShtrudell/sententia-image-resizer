@@ -22,6 +22,7 @@
         <element id="artifact" artifact-name="sententia:jar" />
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/boot/resize.bat" />
+      <element id="file-copy" path="$PROJECT_DIR$/boot/config.properties" />
     </root>
   </artifact>
 </component>
