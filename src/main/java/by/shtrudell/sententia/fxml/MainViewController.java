@@ -1,4 +1,4 @@
-package by.shtrudell.sententia;
+package by.shtrudell.sententia.fxml;
 
 import by.shtrudell.sententia.image.*;
 import javafx.event.ActionEvent;
@@ -35,7 +35,7 @@ public class MainViewController {
 
     private EventHandler<ActionEvent> closeEventHandler;
 
-    MainViewController(File imageFile, ImageEditor imageEditor) {
+    public  MainViewController(File imageFile, ImageEditor imageEditor) {
         this.imageEditor = imageEditor;
         this.imageFile = imageFile;
     }
@@ -114,6 +114,16 @@ public class MainViewController {
     @FXML
     private void cancel(ActionEvent actionEvent) {
         closeEventHandler.handle(new ActionEvent());
+    }
+
+    @FXML
+    private void openSettings(ActionEvent actionEvent) {
+        try {
+            FXMLWindow fxmlWindow = new FXMLWindow("settings-view");
+            fxmlWindow.show();
+        } catch (WindowShowError e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setCloseEventHandler(EventHandler<ActionEvent> closeEventHandler) {

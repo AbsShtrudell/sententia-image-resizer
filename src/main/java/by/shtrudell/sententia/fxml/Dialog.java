@@ -1,4 +1,4 @@
-package by.shtrudell.sententia;
+package by.shtrudell.sententia.fxml;
 
 import javafx.scene.control.Alert;
 

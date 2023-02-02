@@ -1,5 +1,7 @@
 package by.shtrudell.sententia;
 
+import by.shtrudell.sententia.fxml.Localization;
+import by.shtrudell.sententia.fxml.MainViewController;
 import by.shtrudell.sententia.image.ThumbnailatorImageEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

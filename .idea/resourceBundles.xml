@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/resources/settings-view.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/settings-view_EN.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/settings-view_RU.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/settings-view.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/settings-view_EN.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/settings-view_RU.properties" />
+      <base-name>settings-view</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/main-view.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/main-view_EN.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/main-view_RU.properties" />
+      <base-name>main-view</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>
