@@ -13,6 +13,9 @@
     <root id="root">
       <element id="directory" name="lib">
         <element id="dir-copy" path="$PROJECT_DIR$/lib/javafx/windows/lib" />
+        <element id="library" level="project" name="Maven: de.jensd:fontawesomefx-commons:9.1.2" />
+        <element id="library" level="project" name="Maven: de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" />
+        <element id="library" level="project" name="Maven: de.jensd:fontawesomefx:8.9" />
       </element>
       <element id="directory" name="bin">
         <element id="dir-copy" path="$PROJECT_DIR$/lib/javafx/windows/bin" />

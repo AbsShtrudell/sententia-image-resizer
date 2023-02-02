@@ -4,10 +4,12 @@ import by.shtrudell.sententia.image.ThumbnailatorImageEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Objects;
 
 public class SententiaApplication extends Application {
     private static File imageFile;
@@ -27,6 +29,7 @@ public class SententiaApplication extends Application {
         Pane sceneRoot = fxmlLoader.load();
         Scene scene = new Scene(sceneRoot, sceneRoot.getPrefWidth(), sceneRoot.getPrefHeight());
 
+        window.getIcons().add(new Image(Objects.requireNonNull(SententiaApplication.class.getResourceAsStream("app-icon.png"))));
         window.setOnCloseRequest(e -> System.exit(0));
         window.setResizable(false);
         window.setTitle("Sententia");
